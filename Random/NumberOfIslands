@@ -1,0 +1,42 @@
+class Solution {
+public:
+    // Time complexity for DFS would be M x N. Compare with word search where it is
+    // M x N x 3^L. There we are backtracking, here we don't. So where we backtrack,
+    // power becomes exponential. 
+    
+    int numIslands(vector<vector<char>>& grid) {
+        queue<pair<int,int>> q;
+        int cnt = 0;
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[i].size(); j++) {
+                if(grid[i][j] == '1') {
+                    cnt++;
+                    q.push({i,j});
+                    while(!q.empty()) {
+                        int r = q.front().first;
+                        int c = q.front().second;
+                        grid[r][c] = '0';
+                        q.pop();
+                        if(r+1 < grid.size() && grid[r+1][c] == '1') {
+                            q.push({r+1,c});
+                            grid[r+1][c] = '0';
+                        }
+                        if(c+1 < grid[0].size() && grid[r][c+1] == '1') {
+                            q.push({r,c+1});
+                            grid[r][c+1] = '0';
+                        }
+                        if(r-1 >= 0 && grid[r-1][c] == '1') {
+                            q.push({r-1,c});
+                            grid[r-1][c] = '0';
+                        }
+                        if(c-1 >= 0 && grid[r][c-1] == '1') {
+                            q.push({r,c-1});
+                            grid[r][c-1] = '0';
+                        }
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+};
